@@ -11,6 +11,7 @@ namespace DynamicOidcProviders
         Task<IEnumerable<OidcProvider>> GetAll();
         Task Create(OidcProvider newProvider);
         Task Delete(string oidcProviderId);
+        Task Update(OidcProvider updatedProvider);
         Task<bool> IsExisting(string oidcProviderId);
         Task<IEnumerable<string>> GetAllIds();
     }

@@ -56,21 +56,10 @@ namespace DynamicOidcProviders
                             OidcProviderId = "google",
                             Name = "Google",
                             AuthorityUrl = "https://accounts.google.com",
-                            ClientId = "713297786769-opodcje1q1q7nvsfrk3vb77ri9v3u90e.apps.googleusercontent.com",
-                            ClientSecret = "1KQZtTTTXWBwX6PnfBZUsAGv",
+                            ClientId = "<YOUR GOOGLE CLIENT_ID>",
+                            ClientSecret = "<YOUR GOOGLE CLIENT_SECRET>",
                             ExpectedResponseType = "code"
                         }
-                        //,
-                        //new OidcProvider
-                        //{
-                        //    OidcProviderId = "local-idsrv",
-                        //    Name = "Local IdentityServer",
-                        //    AuthorityUrl = "http://localhost:5000",
-                        //    ClientId = "dynamic-providers-test-client",
-                        //    ClientSecret = "123456",
-                        //    ExpectedResponseType = "code"
-                        //      openid profile some_custom_scope
-                        //}
                     }));
         }
 

@@ -71,14 +71,57 @@ namespace DynamicOidcProviders.Controllers
         }
 
         [HttpGet("/oidc-providers/{providerId}/edit")]
-        public IActionResult Edit(OidcProvider newProvider)
+        public async Task<IActionResult> Edit([FromRoute] string providerId)
         {
-            return View();
+            OidcProvider provider = await _oidcProviderStore.GetById(providerId);
+
+            OidcProviderUpdateViewModel vm = new OidcProviderUpdateViewModel();
+            vm.AuthorityUrl = provider.AuthorityUrl;
+            vm.ClientId = provider.ClientId;
+            vm.ClientSecret = provider.ClientSecret;
+            vm.ExpectedResponseType = provider.ExpectedResponseType;
+            vm.Name = provider.Name;
+            vm.ProviderId = provider.OidcProviderId;
+            vm.RequireHttpsMetadata = provider.RequireHttpsMetadata;
+            vm.ScopesToRequest = string.Join(" ", provider.ScopesToRequest);
+                
+            return View(vm);
+        }
+
+        [HttpPost("/oidc-providers/{providerId}/edit")]
+        public IActionResult Edit([FromRoute] string providerId, [FromForm] OidcProviderUpdateViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            try
+            {
+                OidcProvider updatedProvider = new OidcProvider();
+                updatedProvider.OidcProviderId = providerId.ToLower();
+                updatedProvider.Name = vm.Name;
+                updatedProvider.AuthorityUrl = vm.AuthorityUrl;
+                updatedProvider.ClientId = vm.ClientId;
+                updatedProvider.ClientSecret = vm.ClientSecret;
+                updatedProvider.CreationDate = DateTime.UtcNow;
+                updatedProvider.ExpectedResponseType = vm.ExpectedResponseType;
+                updatedProvider.RequireHttpsMetadata = vm.RequireHttpsMetadata;
+                updatedProvider.ScopesToRequest = vm.ScopesToRequest.Split(" ").ToList();
+
+                _oidcProviderStore.Update(updatedProvider);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.ToString());
+                return View(vm);
+            }
+
+            return RedirectToAction(nameof(List));
         }
 
         [HttpGet("/oidc-providers/{providerId}/delete")]
         public IActionResult Delete([FromRoute] string providerId)
         {
+            _oidcProviderStore.Delete(providerId);
             return RedirectToAction(nameof(List));
         }
     }

@@ -57,5 +57,20 @@ namespace DynamicOidcProviders
         {
             return _providers;
         }
+
+        public async Task Update(OidcProvider updatedProvider)
+        {
+            OidcProvider found = 
+                _providers
+                .FirstOrDefault(x => x.OidcProviderId == updatedProvider.OidcProviderId);
+
+            found.AuthorityUrl = updatedProvider.AuthorityUrl;
+            found.ClientId = updatedProvider.ClientId;
+            found.ClientSecret = updatedProvider.ClientSecret;
+            found.ExpectedResponseType = updatedProvider.ExpectedResponseType;
+            found.Name = updatedProvider.Name;
+            found.RequireHttpsMetadata = updatedProvider.RequireHttpsMetadata;
+            found.ScopesToRequest = updatedProvider.ScopesToRequest;
+        }
     }
 }

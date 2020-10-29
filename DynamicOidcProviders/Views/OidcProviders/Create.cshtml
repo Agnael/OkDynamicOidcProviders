@@ -57,7 +57,7 @@
                 <div class="form-check">
                     @Html.CheckBoxFor(x => x.RequireHttpsMetadata, new { @class = "form-check-input" })
                     @Html.LabelFor(x => x.RequireHttpsMetadata, "Require HTTPS metadata", new { @class = "form-check-label" })
-                    @Html.ValidationMessageFor(x => x.RequireHttpsMetadata, null, new { @class = "text-danger" })
+                    <small class="form-text text-muted">IMPORTANT: This can only be checked if an HTTPS authority was configured, otherwise the demo will crash until next app restart.</small>
                 </div>
             </div>
 
